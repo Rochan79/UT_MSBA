@@ -1,0 +1,1012 @@
+---
+title: "IntroToML_takeHome"
+author: "Rochan"
+date: '2022-07-30'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library (MASS)
+
+summary(Boston)
+
+attach(Boston)
+#install.packages('ISLR')
+#install.packages('glmnet')
+#install.packages('pcr')
+#install.packages('pls')
+library(ISLR)
+library(glmnet)
+library(pcr)
+library(pls)
+library(tidyverse)
+library(caret)
+library(leaps)
+#install.packages('leaps')
+
+#install.packages('caret')
+attach(Carseats)
+#install.packages('caTools')
+library(caTools)
+```
+
+<h2>Book Problems</h2>
+
+<h2>Chapter 2 #10</h2>
+This exercise involves the Boston housing data set.
+
+<h3>Part a</h3>
+```{r #1.a,include=FALSE, error=FALSE, warning=FALSE}
+library (MASS)
+# ?Boston
+summary(Boston)
+rows_indata=nrow(Boston)
+print('Number of rows in Boston: ')
+print(rows_indata)
+
+
+?Boston #help shows number of rows and columns and their description
+dim(Boston) 
+```
+output shows 506 rows and 14 columns
+
+
+## Part B
+Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your findings
+
+```{r #1.b, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+#pairs(Boston)  uninterpretable
+pairs(~crim++zn+indus+tax+black+nox+dis+tax+medv, data=Boston)
+```
+###Observations-
+crim seems to have a negative trend with dis and medv as we can plot a negative exponential kind of curve scatter plot
+nox seems to have a negative trend with dis as we can plot a negative exponential kind of curve in their scatter plot
+dis also seems to have a negative trend with nox and a positive trend with medv 
+unable to see a trend with tax
+medv has a positive trend with dis and negative trend with nox
+medv has a positive trend with black
+indus and a negative trend with dis and medv
+zn has a positive trend with dis and medv maybe
+
+
+##Part C
+to find predictors we have to find the correlation coefficient
+```{r #1.c, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+cor(Boston$crim,Boston$zn)
+cor(Boston$crim,Boston$indus)
+cor(Boston$crim,Boston$chas)
+cor(Boston$crim,Boston$nox)
+cor(Boston$crim,Boston$rm)
+cor(Boston$crim,Boston$age)
+cor(Boston$crim,Boston$dis)
+cor(Boston$crim,Boston$rad)
+cor(Boston$crim,Boston$tax)
+cor(Boston$crim,Boston$ptratio)
+cor(Boston$crim,Boston$black)
+cor(Boston$crim,Boston$lstat)
+cor(Boston$crim,Boston$medv)
+```
+
+crim has a negative  relationship with zn, rm,  medv, dis, black.
+crim has a positive  relationship with indus, nox, rad, tax, ptratio, lstat, age.
+
+##Part D
+High crime rate= crime rate >95% of suburbs which is 2 std dev from the mean
+```{r #1.d, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+nrow(Boston[which(Boston$crim > mean(Boston$crim) + 2*sd(Boston$crim)),])
+range(Boston$crim)
+mean(Boston$crim)
+sd(Boston$crim)
+
+
+
+nrow(Boston[which(Boston$tax > mean(Boston$tax) + 2*sd(Boston$tax)),])
+nrow(Boston[which(Boston$tax > mean(Boston$tax) + sd(Boston$tax)),])
+range(Boston$tax)
+mean(Boston$tax)
+sd(Boston$tax)
+
+
+
+
+
+nrow(Boston[which(Boston$ptratio > mean(Boston$ptratio) + 2*sd(Boston$ptratio)),])
+nrow(Boston[which(Boston$ptratio > mean(Boston$ptratio) + sd(Boston$ptratio)),])
+range(Boston$ptratio)
+mean(Boston$ptratio)
+sd(Boston$ptratio)
+
+
+```
+###Observations-
+  -there are 16 suburbs with particularly high crime rates
+  -Crime ranges from as close to 0 to 89, a very wide range         
+  -mean crime rate is 3.613
+  -std dev of crime rate is 8.6, that means some suburbs have extremely high crime rates as the range goes upto 89!
+  
+  -there are 0 suburbs with particularly high tax rates
+  -there are 137 suburbs with tax rates higher than 1 std dev
+  -tax ranges from as close to 187 to 711, this is also a very wide range        
+  -mean tax rate is 408.23
+  -std dev of tax rate is 168, that means some suburbs have extremely high tax rates.
+  
+  
+  -there are 0 suburbs with particularly high ptratio
+  -56 suburbs have mean ptratio> 1 std dev.  
+  -ptratio ranges from as close to 12.6 to 22, the range is very narrow     
+  -mean ptratio rate is 18
+  -std dev of ptratio rate is 2.16
+
+
+##Part e
+
+```{r #1.e, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+sum(Boston$chas==1)
+```
+35 suburbs bound the Charles river
+
+##Part f
+```{r #1.f, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+median(Boston$ptratio)
+```
+the median pupil to teacher ratio is 19.05
+
+
+
+##Part g
+
+```{r #1.g, echo=FALSE}
+which(Boston$medv == min(Boston$medv))
+```
+there are 2 suburbs 399 and 406 that have the lowest median property values
+
+```{r , echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+range(Boston$crim) 
+range(Boston$zn) 
+range(Boston$indus) 
+range(Boston$chas) 
+range(Boston$nox) 
+range(Boston$rm) 
+range(Boston$age) 
+range(Boston$dis) # 
+range(Boston$rad) # 
+range(Boston$tax) #
+range(Boston$ptratio) #
+range(Boston$lstat) #
+range(Boston$medv) #
+
+mean(Boston$crim)
+mean(Boston$zn)
+mean(Boston$indus)
+mean(Boston$chas)
+mean(Boston$nox)
+mean(Boston$rm)
+mean(Boston$age)
+mean(Boston$dis)
+mean(Boston$rad)
+mean(Boston$tax)
+mean(Boston$ptratio)
+mean(Boston$lstat)
+mean(Boston$medv)
+
+
+sd(Boston$crim)
+sd(Boston$zn)
+sd(Boston$indus)
+sd(Boston$chas)
+sd(Boston$nox)
+sd(Boston$rm)
+sd(Boston$age)
+sd(Boston$dis)
+sd(Boston$rad)
+sd(Boston$tax)
+sd(Boston$ptratio)
+sd(Boston$lstat)
+sd(Boston$medv)
+```
+```{r}
+Boston[399,]
+```
+
+###Observations for suburb 399-
+  -high crime rate 
+  -lowest zn
+  -proportion of non-retail business acres per tow is average  
+  -not bound to charles river
+  -nox very close to average
+  -a little less than mean rm
+  -proportion of owner-occupied units built prior to 1940 higher than mean age
+  -higher lstat(percentage of lower status of population) than average of all
+  -lowest median value of owner-occupied homes in $1000s.
+  
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+Boston[406,]
+```
+###Observations for suburb 406-
+  -crim rate higher than the other suburb.
+  -lowest zn
+  -proportion of non-retail business acres per tow is average  
+  -not bound to charles river
+  -nox very close to average
+  -a little less than mean rm
+  -proportion of owner-occupied units built prior to 1940 higher than mean age
+  -higher lstat(percentage of lower status of population) than average of all
+  -lowest median value of owner-occupied homes in $1000
+  
+  -parameters for both these suburbs are more or less similar
+
+##Part h
+
+```{r #1.h, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+length(which(Boston$rm > 7))
+```
+there are 64 suburbs with average more than 7 number of rooms per dwelling.
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+length(which(Boston$rm > 8))
+
+```
+there are 13 suburbs with average more than 7 number of rooms per dwelling.
+
+
+
+
+```{r, echo=FALSE,,include=FALSE, error=FALSE, warning=FALSE}
+
+summary(Boston)
+summary(subset(Boston,Boston$rm > 8))
+```
+very less crime rate crim, lstat and higher medv than average.
+
+
+
+
+
+
+
+#Chapter 3 #15
+
+##Part a
+statistical significance is denoted by the p-value. P value disproves the null hypothesis, that means for a p value higher than 0.05, 
+it indicates that the variable does not have statistical significance
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+lm.zn = lm(crim~zn)
+summary(lm.zn) # statistically significant
+lm.indus = lm(crim~indus)
+summary(lm.indus) # statistically significant
+lm.chas = lm(crim~chas) 
+summary(lm.chas) # Very high p-value,0.2, which is greater than 0.05. 
+lm.nox = lm(crim~nox)
+summary(lm.nox) # statistically significant
+lm.rm = lm(crim~rm)
+summary(lm.rm) # statistically significant
+lm.age = lm(crim~age)
+summary(lm.age) # statistically significant
+lm.dis = lm(crim~dis)
+summary(lm.dis) # statistically significant
+lm.rad = lm(crim~rad)
+summary(lm.rad) # statistically significant
+lm.tax = lm(crim~tax)
+summary(lm.tax) # statistically significant
+lm.ptratio = lm(crim~ptratio)
+summary(lm.ptratio) # statistically significant
+lm.black = lm(crim~black)
+summary(lm.black) # statistically significant
+lm.lstat = lm(crim~lstat)
+summary(lm.lstat) # statistically significant
+lm.medv = lm(crim~medv)
+summary(lm.medv) # statistically significant
+
+#plot(lm.chas)
+#plot(lm.zn)
+#plot(lm.nox)
+#plot(lm.rm)
+#plot(lm.dis)
+#plot(lm.rad)
+#plot(lm.tax)
+#plot(lm.ptratio)
+#plot(lm.lstat)
+plot(lm.medv)
+
+```
+
+
+##Part b
+
+```{r, echo=FALSE,,include=FALSE, error=FALSE, warning=FALSE}
+
+lm.multi= lm(crim~., data=Boston)
+summary(lm.multi)
+plot(lm.multi)
+```
+zn, dis, rad, black and medv have Pr(>|t|) values less than 0.05, hence we can reject null hypothesis for these predictors
+
+##Part c
+how do your results from a compare to b? One is uni variate regression and the other is Multivariate regression.
+```{r, echo=FALSE}
+x = c(coefficients(lm.zn)[2],
+      coefficients(lm.indus)[2],
+      coefficients(lm.chas)[2],
+      coefficients(lm.nox)[2],
+      coefficients(lm.rm)[2],
+      coefficients(lm.age)[2],
+      coefficients(lm.dis)[2],
+      coefficients(lm.rad)[2],
+      coefficients(lm.tax)[2],
+      coefficients(lm.ptratio)[2],
+      coefficients(lm.black)[2],
+      coefficients(lm.lstat)[2],
+      coefficients(lm.medv)[2])
+y = coefficients(lm.multi)[2:14]
+plot(x, y)
+```
+the coefficient estimate of nox is -10 in multivariate regression and 31 in uni variate regression. If we remove nox from set of variables in multivariate analysis, the effect of other variables would be the same for their respective univariate regressions. 
+
+
+##Part d
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.zn2 = lm(crim~poly(zn,3))
+summary(lm.zn2) 
+```
+Pr(>|t|) value of  coeff of cubic variable is greater than 0.05, therefore this is not statistically significant ,hence no non-linear effect
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.indus2 = lm(crim~poly(indus,3))
+summary(lm.indus2)
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit,therefore non-linear relationship is observed
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+
+#lm.chas2 = lm(crim~poly(chas,3))
+#summary(lm.chas2)
+#lm of chas gives error because this is a qualitative predictor, as it only has 2 values 0 and 1. The error states the degree must be less than number of unique points
+
+lm.nox2 = lm(crim~poly(nox,3))
+summary(lm.nox2)
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit,therefore non-linear relationship is observed
+
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+lm.rm2 = lm(crim~poly(rm,3))
+summary(lm.rm2)
+```
+Pr(>|t|) value of  coeff of cubic variable is greater than 0.05, therefore this is not statistically significant,hence no non-linear effect
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+lm.age2 = lm(crim~poly(age,3))
+summary(lm.age2)
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit,therefore non-linear relationship is observed
+
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+lm.dis2 = lm(crim~poly(dis,3))
+summary(lm.dis2) 
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit, therefore non-linear relationship is observed
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.rad2 = lm(crim~poly(rad,3))
+summary(lm.rad2) 
+```
+Pr(>|t|) value of  coeff of cubic variable is greater than 0.05, therefore this is not statistically significant,hence no non-linear effect
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.tax2 = lm(crim~poly(tax,3))
+summary(lm.tax2)
+```
+Pr(>|t|) value of  coeff of cubic variable is greater than 0.05, therefore this is not statistically significant ,hence no non-linear effect
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.ptratio2 = lm(crim~poly(ptratio,3))
+summary(lm.ptratio2)
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit, therefore non-linear relationship is observed
+
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.black2 = lm(crim~poly(black,3))
+summary(lm.black2)
+```
+2 Pr(>|t|) values of quadratic and cubic coefficients is above 0.05, therefore no linear relationship is observed
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.lstat2 = lm(crim~poly(lstat,3))
+summary(lm.lstat2)
+```
+Pr(>|t|) value of  coeff of cubic variable is greater than 0.05, therefore this is not statistically significant ,hence no non-linear effect
+
+
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+lm.medv2 = lm(crim~poly(medv,3))
+summary(lm.medv2)
+```
+all Pr(>|t|) value of all coefficients is below 0.05, this indicates adequacy of cubic fit, therefore non-linear relationship is observed
+
+
+
+
+#Chapter 6 #9
+##Part a
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+set.seed(2)
+
+College.data <- College
+
+x = model.matrix(Apps~.,College)[,-1]
+y = College$Apps
+# Training and test sets
+college_train = sample(1:nrow(x), nrow(x)/1.2)
+college_test = (-college_train)
+y.test = y[college_test]
+
+```
+
+##Part b
+Linear model using least squares (that is ridge regression with lambda=0) and get the test MSE
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+grid = 10^seq(10,-2,length=100)
+#fit
+linear.model.leastsq = glmnet(x[college_train,], y[college_train], alpha=0, lambda=grid)
+#predict
+linear.pred = predict(linear.model.leastsq, s=0, newx=x[college_test,],exact=T,x=x[college_train,],y=y[college_train])
+
+#test out the mean sq error
+mean.lm=mean((linear.pred-y.test)^2)
+mean.lm
+```
+
+##Part c
+ridge regression model with lambda from cross validation
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+cv.out.ridge = cv.glmnet(x[college_train,],y[college_train],alpha=0)
+best_lambda_ridge = cv.out.ridge$lambda.min
+best_lambda_ridge
+
+ridge.regression = glmnet(x[college_train,],y[college_train],alpha=0,lambda=grid)
+ridge.pred = predict(ridge.regression, s=best_lambda_ridge, newx=x[college_test,])
+mean.ridge = mean((ridge.pred-y.test)^2)
+mean.ridge
+
+```
+
+##Part d
+Lasso regression
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+#My lasso is doing bad
+cv.out.lasso =  cv.glmnet(x[college_train,],y[college_train], alpha=1, lambda=grid)
+best_lambda_lasso =  cv.out.lasso$lambda.min
+best_lambda_lasso
+
+lasso.regression = glmnet(x[college_train,],y[college_train],alpha=0,lambda=grid)
+lasso.pred = predict(lasso.regression, s=best_lambda_lasso, newx=x[college_test,])
+mean.lasso = mean((lasso.pred-y.test)^2)
+mean.lasso
+
+
+#lasso coefficients
+lasso.coef = predict(lasso.regression, type="coefficients", s=best_lambda_lasso)
+length(lasso.coef)
+```
+all 18 coefficients of the lasso regression are non-zero
+
+
+##Part e
+PCR model on the training set, with M chosen by cross validation
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+#PCR also doing bad
+
+pcr.fit = pcr(College$Apps~.,data=College, subset=college_train, scale=T, validation="CV")
+validationplot(pcr.fit, val.type="MSEP")
+#best MSEP observed for components greater than 15
+summary(pcr.fit)
+
+pcr.pred = predict(pcr.fit,x[college_test,], ncomp = 17)
+mean.pcr = mean((pcr.pred-y.test)^2)
+mean.pcr
+#selected value of M is 17 for which MSE is lowest
+
+
+```
+best MSEP observed for components greater than 15
+selected value of M is 17 for which MSE is lowest
+
+##Part f
+PLS Regression
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+pls.fit = plsr(College$Apps~., data=College, subset=college_train, scale=T, validation="CV")
+validationplot(pls.fit, val.type="MSEP")
+
+pls.pred = predict(pls.fit, x[college_test,], ncomp=8)
+#pls.pred = predict(pls.fit, x[college_test,], ncomp=9)
+#pls.pred = predict(pls.fit, x[college_test,], ncomp=7)
+#pls.pred = predict(pls.fit, x[college_test,], ncomp=10)
+
+
+mean.pls = mean((pls.pred-y.test)^2)
+mean.pls
+```
+lowest MSE observed for M=8
+
+##Part g
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+all_means = c(mean.lm, mean.ridge, mean.lasso, mean.pcr, mean.pls)
+barplot(all_means, xlab="Models", ylab="Test MSE", names=c("lm", "ridge", "lasso", "pcr", "pls"))
+
+#pls found to have lowest MSE relatively.
+
+#MSEs changes if we change the seed set initially
+
+
+
+
+test.avg = mean(y.test)
+r2.lm = 1 - mean((linear.pred - y.test)^2) / mean((test.avg - y.test)^2)
+r2.ridge = 1 - mean((ridge.pred - y.test)^2) / mean((test.avg - y.test)^2)
+r2.lasso = 1 - mean((lasso.pred - y.test)^2) / mean((test.avg - y.test)^2)
+r2.pcr = 1 - mean((pcr.pred - y.test)^2) / mean((test.avg - y.test)^2)
+r2.pls = 1 - mean((pls.pred - y.test)^2) / mean((test.avg - y.test)^2)
+
+
+all_r2 = c(r2.lm, r2.ridge, r2.lasso, r2.pcr, r2.pls)
+xx <- barplot(all_r2, xlab="Models", ylab="R Square", names=c("lm", "ridge", "lasso", "pcr", "pls"))
+text(x = xx, y = all_r2, label = all_r2, cex = 0.8, col = "red")
+```
+###Observations
+  -pls found to have lowest MSE relatively.
+  -almost all models have r2 slightly below or above 0.85. Ridge and PLS have a R2 above 0.85 accurately and others     have a R2 very slightly below 0.85
+  -SO we can be reasonably confident about the accuracy of the predictions of Ridge and PLS.
+
+
+#Chapter 6 Problem 11
+##Part a
+Best subset selection using cross validation with 10 folds.
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+predict.regsubsets <- function(object, newdata, id, ...) {
+  form = as.formula(object$call[[2]])
+  mat = model.matrix(form, newdata)
+  coefi = coef(object, id = id)
+  xvars = names(coefi)
+  mat[, xvars] %*% coefi
+}
+set.seed(121)
+k = 10
+folds = sample(1:k, nrow(Boston), replace=TRUE)
+cv.errors = matrix(NA,k,13, dimnames = list(NULL, paste(1:13)))
+for (j in 1:k) {
+  best.fit = regsubsets(crim ~ ., data = Boston[folds != j, ], nvmax = 13)
+  for (i in 1:13) {
+    pred = predict(best.fit, Boston[folds == j, ], id = i)
+    cv.errors[j, i] = mean((Boston$crim[folds == j] - pred)^2)
+  }
+}
+mean.cv.errors = apply(cv.errors, 2, mean)
+plot(1:13, mean.cv.errors, xlab = "Number of variables", ylab = "CV error",
+     main= "Best subset selection", pch = 1, type = "b")
+
+```
+###Observation:
+CV error is lowest for model with 9 variables. CV Error = 42.01511
+
+###Lasso Regression
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+set.seed(2)
+x = model.matrix(crim~.,Boston)[,-1]
+y = Boston$crim
+grid = 10^seq(10,-2,length=100)
+train =  sample(1:nrow(x), nrow(x)/1.2)
+
+test = (-train)
+y.test = y[test]
+cv.out = cv.glmnet(x[train,], y[train], alpha=1)
+best_lambda_lasso = cv.out$lambda.min
+lasso.mod = glmnet(x[train,],y[train],alpha=1,lambda=grid)
+lasso.pred = predict(lasso.mod, s=best_lambda_lasso, newx=x[test,])
+
+
+mean((lasso.pred-y.test)^2)
+
+
+
+lasso.coef = predict(lasso.mod, type="coefficients", s=best_lambda_lasso)[1:13,]
+lasso.coef
+
+
+```
+
+###Ridge Regression
+
+```{r, echo=FALSE,include=FALSE, error=FALSE, warning=FALSE}
+
+cv.out = cv.glmnet(x[train,], y[train], alpha=0)
+best_lambda_ridge = cv.out$lambda.min
+glm.mod = glmnet(x[train,],y[train],alpha=0,lambda=grid, thresh=1e-12)
+glm.pred = predict(glm.mod, s=best_lambda_ridge, newx=x[test,])
+mean((glm.pred-y.test)^2)
+
+
+glm.coef = predict(glm.mod, type="coefficients", s=best_lambda_ridge)[1:13,]
+glm.coef
+```
+
+
+
+###PCR
+```{r, echo=FALSE}
+pcr.fit = pcr(crim~., data=Boston, subset=train, scale=T, validation="CV")
+validationplot(pcr.fit, val.type="MSEP")
+
+pcr.pred = predict(pcr.fit, x[test,], ncomp=13)
+mean((pcr.pred-y.test)^2)
+
+```
+###Observations:
+  -I would choose the Lasso model because it gives me the least MSE compared to other models
+  -Lasso models are generally more interpret able.
+  -It results in a sparse model with 10 variables. Two variables whose effect on the response were below the required     threshold were removed.
+
+
+
+#Chapter 8 #8
+A simulated data set containing sales of child car seats at 400 different stores.
+
+##Part a
+```{r, echo=FALSE}
+set.seed(2)
+#?Carseats
+#data = Carseats
+#sample.data = sample.split(data$Sales, SplitRatio = 0.80)
+#train.set = subset(data, sample.data==T)
+#test.set = subset(data, sample.data==F)
+
+train = sample(dim(Carseats)[1], dim(Carseats)[1] * 0.75)
+Carseats.train = Carseats[train, ]
+Carseats.test = Carseats[-train, ]
+```
+
+##Part b
+Regression tree
+```{r, echo=FALSE}
+#install.packages('tree')
+
+library(tree)
+tree.carseats = tree(Sales~., data=Carseats.train)
+summary(tree.carseats)
+plot(tree.carseats)
+text(tree.carseats, pretty=0)
+pred.carseats = predict(tree.carseats, Carseats.test)
+mean((Carseats.test$Sales - pred.carseats)^2)
+```
+above is how the tree looks like. ShevLoc being first comparison node and Price being the second node, they are the most important predictors
+
+The test MSE is about $4.223801
+
+##Part c
+```{r, echo=FALSE}
+set.seed(2)
+cv.carseats = cv.tree(tree.carseats)
+plot(cv.carseats$size,cv.carseats$dev,xlab="Terminal Nodes",ylab="CV Error",type="b")
+```
+
+CV error is the lowest for 14 terminal nodes, tree can be pruned to 14 terminal nodes
+```{r,echo=FALSE}
+prune.carseats = prune.tree(tree.carseats, best=14)
+tree.pred = predict(prune.carseats,Carseats.test)
+test.mse = mean((tree.pred-Carseats.test$Sales)^2)
+test.mse
+```
+Test MSE is reduced after pruning the tree
+
+
+##Part d
+Bagging using Random Forests
+```{r, echo=FALSE}
+#install.packages("randomForest")
+library(randomForest)
+set.seed(2)
+bag.carseats = randomForest(Sales~.,data=Carseats.train,mtry=10,importance=T)
+importance(bag.carseats)
+```
+
+ShelveLoc and Price are the 2 main important predictors, similar to the tree we plotted earlier,  followed by Compprice and Age
+
+
+```{r, echo=FALSE}
+bag.predict = predict(bag.carseats,newdata = Carseats.test)
+mean((bag.predict-Carseats.test$Sales)^2)
+```
+We get an MSE of 2.156419, lower than pruning the tree. 
+
+##Part e
+RF for m=10/2, sqrt(10), 20
+```{r, echo=FALSE}
+set.seed(2)
+rf1.carseats = randomForest(Sales~., data=Carseats.train, mtry=10/2, ntree=500, importance=T)
+
+importance(rf1.carseats)
+```
+
+RF shows that Price and ShelveLoc are most imp predictors, but here Price is more important than ShelveLoc
+```{r, echo=FALSE}
+set.seed(2)
+rf2.carseats = randomForest(Sales~., data=Carseats.train, mtry=sqrt(10), ntree=500, importance=T)
+rf3.carseats = randomForest(Sales~., data=Carseats.train, mtry=20, ntree=500, importance=T)
+rf1.pred = predict(rf1.carseats, Carseats.test)
+rf2.pred = predict(rf2.carseats, Carseats.test)
+rf3.pred = predict(rf3.carseats, Carseats.test)
+mean((Carseats.test$Sales - rf1.pred)^2)
+mean((Carseats.test$Sales - rf2.pred)^2)
+mean((Carseats.test$Sales - rf3.pred)^2)
+```
+For mtry/2 we are getting an MSE of 2.15019, slightly lower MSE than that of original mtry. 
+
+#Chapter 8 #11
+Caravan dataset, 
+##Part a
+first create a training set of 1000 and test set of remaining 4822
+```{r, echo=FALSE}
+library(ISLR)
+train = 1:1000
+Caravan$Purchase = ifelse(Caravan$Purchase == "Yes", 1, 0)
+Caravan.train = Caravan[train, ]
+Caravan.test = Caravan[-train, ]
+
+```
+##Part B
+perform boosting with n.trees=1000 and shrinkage=0.01, Get important predictors
+
+```{r, echo=FALSE}
+library(gbm)
+set.seed(2)
+boost.caravan = gbm(Purchase~., data=Caravan.train, n.trees=1000, shrinkage=0.01, distribution="bernoulli")
+summary(boost.caravan)
+```
+
+PPERSAUT is the most important predictor in the dataset, followed by MKOOPKLA and MOPLHOOG
+
+##Part C
+Predict response and solve the given problem, get confusion matrix and compare it with logistic regresssion
+```{r, echo=FALSE}
+set.seed(2)
+boost.prob = predict(boost.caravan, Caravan.test, n.trees=1000, type="response")
+boost.pred = ifelse(boost.prob >0.2, 1, 0)
+table(Caravan.test$Purchase, boost.pred)
+33 / (123 + 33)
+```
+21.15% of people predicted to make purchase actually end up making one.
+
+We will compare this with logistic regression using glm in R
+```{r, echo=FALSE}
+lm.caravan = glm(Purchase~., data=Caravan.train, family=binomial)
+lm.prob = predict(lm.caravan, Caravan.test, type="response")
+lm.pred = ifelse(lm.prob > 0.2, 1, 0)
+table(Caravan.test$Purchase, lm.pred)
+58 / (350 + 58)
+```
+
+14.21% people who were predicted to make purchase using logistic regression actually end up making one, this percentage is lower than that of boosting
+
+
+
+#Chapter 10#7
+In the chapter, we mentioned the use of correlation-based distance
+and Euclidean distance as dissimilarity measures for hierarchical clustering. It turns out that these two measures are almost equivalent: if
+each observation has been centered to have mean zero and standard
+deviation one, and if we let rij denote the correlation between the ith
+and jth observations, then the quantity 1 − rij is proportional to the
+squared Euclidean distance between the ith and jth observations.
+
+USArrests dataset
+
+scale function-normalizing of a dataset using the mean value and standard deviation is known as scaling.
+dist-Euclidean distance
+cor- correlation
+```{r, echo=FALSE}
+library(ISLR)
+set.seed(1)
+
+
+distance = scale(USArrests)
+a = dist(distance)^2
+b = as.dist(1 - cor(t(distance)))
+summary(b/a)
+```
+summary of b/a gives the above 
+
+
+
+
+
+#Problem 1: Beauty Pays!
+
+```{r, echo=FALSE}
+Beauty.data <- read.csv('BeautyData.csv')
+Beauty.data
+```
+Given the columnms into consideration from the Beauty Data, we can comfortably infer that the overall ratings could be interpreted as a linear function of BeautyScore, Female, lower, nonenglish and tenuretrack. In mathematical terms:
+
+Ratings= B0 + B1*BeautyScore + B2*Female + B3*lower + B4*nonenglish + B5*tenuretrack + e
+
+
+where B0,B1,...,B5 are coefficients of the linear function and e is the error in our prediction.
+
+
+```{r, echo=FALSE}
+linear.beauty=lm(CourseEvals~. , data = Beauty.data)
+summary(linear.beauty)
+```
+As we can see, only BeautyScore has a positive coefficient whereas other predictors have a negative coefficient. 
+We can infer from this that more the BeautyScore, more the ratings. On the other hand, female and lower have an equally negative coefficient, that means a positive change in their values results in a decline in their ratings.   
+
+Also, BeautyScore, female, lower turn out to be the most statistically significant predictors followed by non-english and lastly, tenurerack.
+
+2. Dr. Hamermesh, by stating this- "Disentangling whether this outcome represents productivity or discrimination is, as with the issue generally, probably impossible", probably wants to impose the question of whether beauty is an indicator of someone being a better teacher or is having beauty perceived to be related to better teaching. This analysis cannot answer this question. In my honest opinion, this is just discrimination and I truly believe that beauty is not the indicator of one's ability to teach. I believe teaching is an ability developed and mastered with experience, ability and passion.
+
+
+#Problem 2: Housing Price Structure
+MidCity Data
+
+
+To begin we create dummy variable Neb_2 and Neb_3 to indicate if a house came from neighborhood two and neighborhood
+three respectively. Using these dummy variables and the other covariates, we ran a
+regression for the model
+
+We observe that BrickYes has a statistical significance on the dataset, along with the Neb_3 measure .
+
+
+```{r, echo=FALSE}
+MidCity <- read.csv("MidCity.csv")
+MidCity <- MidCity[,-1]
+MidCity$Brick <- as.factor(MidCity$Brick)
+MidCity$Nbhd <- as.factor(MidCity$Nbhd)
+MidCity$SqFt <- scale(MidCity$SqFt)
+attach(MidCity)
+summary(MidCity)
+```
+
+
+```{r, echo=FALSE}
+midcity_linreg <- lm(Price~.,data = MidCity)
+summary(midcity_linreg)
+```
+Yes there is a premium for Brick houses, keeping variables constant, one would give $15601 premium. 
+##Part B
+
+We will introduce Neb_3 variable first and Neb_2 variable later
+```{r, echo=FALSE}
+midcity_linreg <- lm(Price~MidCity$Nbhd,data = MidCity)
+summary(midcity_linreg)  
+
+```
+As there is statistical significance for Neighbourhood 3 with a positive coefficient, we can infer that there is premium for houses for neighbourhood 3 for $23993
+```{r, echo=FALSE}
+MidCity$Brick_Nbhd3 <- as.factor(ifelse(Brick == "Yes" & Nbhd == "3","Yes","No" ))
+  midcity_linreg2 <- lm(Price~.,data = MidCity)
+  summary(midcity_linreg2)
+
+```
+##Part d 
+Yes we can combine the two neighbourhoods 1,2 into one column by tagging a 1 for a match for the same.
+But we saw earlier that neighbourhood 2 has a non-zero coefficient, meaning it has an impact on house prices. Hence it is not a good idea to merge the two and perform a prediction, we might get an NA as the coefficient. 
+
+
+#Problem 3: What causes what??
+
+Answer 1: You can get data from different cities on Crime and Police, but it would be very difficult to establish a relationship between the two. Also datasets provided to a regression model should be free of a bias. If we perform the act of introducing more cops on the streets to reduce the crime rate and then use the data, we are already coming in with a bias. 
+
+Answer 2: the researchers in DC were able to go around the bias of increase in cops leading to reduced crime rate because the number of cops on the streets were increased by the mayor on high alert days. High alert days are determined by potential terrorist attacks and are not dependent on crime rate. They observed that the crime rate dropped. Maybe because  People wouldn't venture out in the first place because there was a high alert?
+
+In table 2, we see that controlling ridership in the Metro results in a lower crime as coefficient is negative. It means that keeping ridership constant, more police results in less crime.
+
+
+Answer 3: The METRO ridership was controlled to ensure that it was not affecting the crime rate. UPENN researchers could hence establish clearer relationship between the crime rate and increase in the police deployed on the streets.
+
+
+Answer 4: Table 4 further enforces our statement of reduction in crime rate due to increase in police on the streets, as the coefficients are negative. 
+
+using interaction between location and high alert, the table is able to differentiate the effect of the experiment for different location. We find that District 1 has an effect of high alert days on crime, unlike other districts.
+
+
+#Problem 4: Final Project
+
+In my final group project, my group tried to predict Walmart Sales using Linear Regression, Random Forests and Boosting. We achieved this in both Python and R. I worked mainly on the Python implementation of the same along with a teammate, Manvi. I helped her in performing EDA of the dataset and  removing the outliers from the data. We also broke down the date column into day, month and year and performed the aforementioned 3 methods for prediction using sklearn.  
+
+For the Random Forest implementation, as our problem statement involves a regression, I used the RandomForestRegressor() method for the same. I divided the data into a 80-20 train test split.  We define the parameters for the Regressor while calling the methods, such as setting the max_depth of the tree and considering out-of-bag score for bootstrapping. I then fitted the model and calculated the metrics-accuracy, MSE and RMSE. I also plotted a sample tree out of the forest for visualization and the feature importances.
+
+For boosting, I used the GradientBoostingRegressor() to fit a boosting model and get the aforementioned metrics. Upon comparison, we found that Random Forest gives a better prediction than boosting.
+ 
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```
+
+```{r, echo=FALSE}
+
+```
+
+
+```{r, echo=FALSE}
+
+```

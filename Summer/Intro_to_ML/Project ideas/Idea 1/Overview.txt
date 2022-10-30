@@ -1,0 +1,18 @@
+Topic-
+Customer segmentation using knn on Instacart aisle data. 
+To divide the data into training and test and predict which customer falls into what category(cluster).
+
+Blog-
+https://towardsdatascience.com/customer-segmentation-using-the-instacart-dataset-17e24be9c0fe
+
+code-
+https://github.com/jrkreiger/instacart-analysis
+
+kaggle-
+https://www.kaggle.com/competitions/instacart-market-basket-analysis/data
+
+Possible issues-
+1- code is in Python, not in R.
+2- her code uses Welch function, an unknown concept to me. 
+3- Output clusters not well defined. Would have to create a test dataset on our own maybe? Using the original data from Kaggle.
+4- Seems too much work for the latter part

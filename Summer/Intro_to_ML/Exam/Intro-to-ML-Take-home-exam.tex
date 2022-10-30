@@ -1,0 +1,1578 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={IntroToML\_takeHome},
+  pdfauthor={Rochan},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{IntroToML\_takeHome}
+\author{Rochan}
+\date{2022-07-30}
+
+\begin{document}
+\maketitle
+
+Book Problems
+
+Chapter 2 \#10
+
+This exercise involves the Boston housing data set.
+
+Part a
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{ (MASS)}
+\CommentTok{\# ?Boston}
+\FunctionTok{summary}\NormalTok{(Boston)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       crim                zn             indus            chas        
+##  Min.   : 0.00632   Min.   :  0.00   Min.   : 0.46   Min.   :0.00000  
+##  1st Qu.: 0.08205   1st Qu.:  0.00   1st Qu.: 5.19   1st Qu.:0.00000  
+##  Median : 0.25651   Median :  0.00   Median : 9.69   Median :0.00000  
+##  Mean   : 3.61352   Mean   : 11.36   Mean   :11.14   Mean   :0.06917  
+##  3rd Qu.: 3.67708   3rd Qu.: 12.50   3rd Qu.:18.10   3rd Qu.:0.00000  
+##  Max.   :88.97620   Max.   :100.00   Max.   :27.74   Max.   :1.00000  
+##       nox               rm             age              dis        
+##  Min.   :0.3850   Min.   :3.561   Min.   :  2.90   Min.   : 1.130  
+##  1st Qu.:0.4490   1st Qu.:5.886   1st Qu.: 45.02   1st Qu.: 2.100  
+##  Median :0.5380   Median :6.208   Median : 77.50   Median : 3.207  
+##  Mean   :0.5547   Mean   :6.285   Mean   : 68.57   Mean   : 3.795  
+##  3rd Qu.:0.6240   3rd Qu.:6.623   3rd Qu.: 94.08   3rd Qu.: 5.188  
+##  Max.   :0.8710   Max.   :8.780   Max.   :100.00   Max.   :12.127  
+##       rad              tax           ptratio          black       
+##  Min.   : 1.000   Min.   :187.0   Min.   :12.60   Min.   :  0.32  
+##  1st Qu.: 4.000   1st Qu.:279.0   1st Qu.:17.40   1st Qu.:375.38  
+##  Median : 5.000   Median :330.0   Median :19.05   Median :391.44  
+##  Mean   : 9.549   Mean   :408.2   Mean   :18.46   Mean   :356.67  
+##  3rd Qu.:24.000   3rd Qu.:666.0   3rd Qu.:20.20   3rd Qu.:396.23  
+##  Max.   :24.000   Max.   :711.0   Max.   :22.00   Max.   :396.90  
+##      lstat            medv      
+##  Min.   : 1.73   Min.   : 5.00  
+##  1st Qu.: 6.95   1st Qu.:17.02  
+##  Median :11.36   Median :21.20  
+##  Mean   :12.65   Mean   :22.53  
+##  3rd Qu.:16.95   3rd Qu.:25.00  
+##  Max.   :37.97   Max.   :50.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rows\_indata}\OtherTok{=}\FunctionTok{nrow}\NormalTok{(Boston)}
+\FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Number of rows in Boston: \textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Number of rows in Boston: "
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(rows\_indata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 506
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?Boston }\CommentTok{\#help shows number of rows and columns and their description}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## starting httpd help server ... done
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(Boston) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 506  14
+\end{verbatim}
+
+output shows 506 rows and 14 columns
+
+\hypertarget{part-b}{%
+\subsection{Part B}\label{part-b}}
+
+Make some pairwise scatterplots of the predictors (columns) in this data
+set. Describe your findings
+
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-2-1.pdf}
+\#\#\#Observations- crim seems to have a negative trend with dis and
+medv as we can plot a negative exponential kind of curve scatter plot
+nox seems to have a negative trend with dis as we can plot a negative
+exponential kind of curve in their scatter plot dis also seems to have a
+negative trend with nox and a positive trend with medv unable to see a
+trend with tax medv has a positive trend with dis and negative trend
+with nox medv has a positive trend with black indus and a negative trend
+with dis and medv zn has a positive trend with dis and medv maybe
+
+\#\#Part C to find predictors we have to find the correlation
+coefficient
+
+\begin{verbatim}
+## [1] -0.2004692
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4065834
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -0.05589158
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4209717
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -0.2192467
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.3527343
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -0.3796701
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.6255051
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.5827643
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.2899456
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -0.3850639
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4556215
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -0.3883046
+\end{verbatim}
+
+crim has a negative relationship with zn, rm, medv, dis, black. crim has
+a positive relationship with indus, nox, rad, tax, ptratio, lstat, age.
+
+\#\#Part D High crime rate= crime rate \textgreater95\% of suburbs which
+is 2 std dev from the mean
+
+\begin{verbatim}
+## [1] 16
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  0.00632 88.97620
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 3.613524
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 8.601545
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 137
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 187 711
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 408.2372
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 168.5371
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 56
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 12.6 22.0
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 18.45553
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.164946
+\end{verbatim}
+
+\#\#\#Observations- -there are 16 suburbs with particularly high crime
+rates -Crime ranges from as close to 0 to 89, a very wide range\\
+-mean crime rate is 3.613 -std dev of crime rate is 8.6, that means some
+suburbs have extremely high crime rates as the range goes upto 89!
+
+-there are 0 suburbs with particularly high tax rates -there are 137
+suburbs with tax rates higher than 1 std dev -tax ranges from as close
+to 187 to 711, this is also a very wide range\\
+-mean tax rate is 408.23 -std dev of tax rate is 168, that means some
+suburbs have extremely high tax rates.
+
+-there are 0 suburbs with particularly high ptratio -56 suburbs have
+mean ptratio\textgreater{} 1 std dev.\\
+-ptratio ranges from as close to 12.6 to 22, the range is very narrow\\
+-mean ptratio rate is 18 -std dev of ptratio rate is 2.16
+
+\#\#Part e
+
+\begin{verbatim}
+## [1] 35
+\end{verbatim}
+
+35 suburbs bound the Charles river
+
+\#\#Part f
+
+\begin{verbatim}
+## [1] 19.05
+\end{verbatim}
+
+the median pupil to teacher ratio is 19.05
+
+\#\#Part g
+
+\begin{verbatim}
+## [1] 399 406
+\end{verbatim}
+
+there are 2 suburbs 399 and 406 that have the lowest median property
+values
+
+\begin{verbatim}
+## [1]  0.00632 88.97620
+\end{verbatim}
+
+\begin{verbatim}
+## [1]   0 100
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  0.46 27.74
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0 1
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.385 0.871
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 3.561 8.780
+\end{verbatim}
+
+\begin{verbatim}
+## [1]   2.9 100.0
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  1.1296 12.1265
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  1 24
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 187 711
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 12.6 22.0
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  1.73 37.97
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  5 50
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 3.613524
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 11.36364
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 11.13678
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.06916996
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.5546951
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 6.284634
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 68.5749
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 3.795043
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 9.549407
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 408.2372
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 18.45553
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 12.65306
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 22.53281
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 8.601545
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 23.32245
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 6.860353
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.253994
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.1158777
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.7026171
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 28.14886
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.10571
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 8.707259
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 168.5371
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.164946
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 7.141062
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 9.197104
+\end{verbatim}
+
+\begin{verbatim}
+##        crim zn indus chas   nox    rm age    dis rad tax ptratio black lstat
+## 399 38.3518  0  18.1    0 0.693 5.453 100 1.4896  24 666    20.2 396.9 30.59
+##     medv
+## 399    5
+\end{verbatim}
+
+\#\#\#Observations for suburb 399- -high crime rate -lowest zn
+-proportion of non-retail business acres per tow is average\\
+-not bound to charles river -nox very close to average -a little less
+than mean rm -proportion of owner-occupied units built prior to 1940
+higher than mean age -higher lstat(percentage of lower status of
+population) than average of all -lowest median value of owner-occupied
+homes in \$1000s.
+
+\begin{verbatim}
+##        crim zn indus chas   nox    rm age    dis rad tax ptratio  black lstat
+## 406 67.9208  0  18.1    0 0.693 5.683 100 1.4254  24 666    20.2 384.97 22.98
+##     medv
+## 406    5
+\end{verbatim}
+
+\#\#\#Observations for suburb 406- -crim rate higher than the other
+suburb. -lowest zn -proportion of non-retail business acres per tow is
+average\\
+-not bound to charles river -nox very close to average -a little less
+than mean rm -proportion of owner-occupied units built prior to 1940
+higher than mean age -higher lstat(percentage of lower status of
+population) than average of all -lowest median value of owner-occupied
+homes in \$1000
+
+-parameters for both these suburbs are more or less similar
+
+\#\#Part h
+
+\begin{verbatim}
+## [1] 64
+\end{verbatim}
+
+there are 64 suburbs with average more than 7 number of rooms per
+dwelling.
+
+\begin{verbatim}
+## [1] 13
+\end{verbatim}
+
+there are 13 suburbs with average more than 7 number of rooms per
+dwelling.
+
+\begin{verbatim}
+##       crim                zn             indus            chas        
+##  Min.   : 0.00632   Min.   :  0.00   Min.   : 0.46   Min.   :0.00000  
+##  1st Qu.: 0.08205   1st Qu.:  0.00   1st Qu.: 5.19   1st Qu.:0.00000  
+##  Median : 0.25651   Median :  0.00   Median : 9.69   Median :0.00000  
+##  Mean   : 3.61352   Mean   : 11.36   Mean   :11.14   Mean   :0.06917  
+##  3rd Qu.: 3.67708   3rd Qu.: 12.50   3rd Qu.:18.10   3rd Qu.:0.00000  
+##  Max.   :88.97620   Max.   :100.00   Max.   :27.74   Max.   :1.00000  
+##       nox               rm             age              dis        
+##  Min.   :0.3850   Min.   :3.561   Min.   :  2.90   Min.   : 1.130  
+##  1st Qu.:0.4490   1st Qu.:5.886   1st Qu.: 45.02   1st Qu.: 2.100  
+##  Median :0.5380   Median :6.208   Median : 77.50   Median : 3.207  
+##  Mean   :0.5547   Mean   :6.285   Mean   : 68.57   Mean   : 3.795  
+##  3rd Qu.:0.6240   3rd Qu.:6.623   3rd Qu.: 94.08   3rd Qu.: 5.188  
+##  Max.   :0.8710   Max.   :8.780   Max.   :100.00   Max.   :12.127  
+##       rad              tax           ptratio          black       
+##  Min.   : 1.000   Min.   :187.0   Min.   :12.60   Min.   :  0.32  
+##  1st Qu.: 4.000   1st Qu.:279.0   1st Qu.:17.40   1st Qu.:375.38  
+##  Median : 5.000   Median :330.0   Median :19.05   Median :391.44  
+##  Mean   : 9.549   Mean   :408.2   Mean   :18.46   Mean   :356.67  
+##  3rd Qu.:24.000   3rd Qu.:666.0   3rd Qu.:20.20   3rd Qu.:396.23  
+##  Max.   :24.000   Max.   :711.0   Max.   :22.00   Max.   :396.90  
+##      lstat            medv      
+##  Min.   : 1.73   Min.   : 5.00  
+##  1st Qu.: 6.95   1st Qu.:17.02  
+##  Median :11.36   Median :21.20  
+##  Mean   :12.65   Mean   :22.53  
+##  3rd Qu.:16.95   3rd Qu.:25.00  
+##  Max.   :37.97   Max.   :50.00
+\end{verbatim}
+
+\begin{verbatim}
+##       crim               zn            indus             chas       
+##  Min.   :0.02009   Min.   : 0.00   Min.   : 2.680   Min.   :0.0000  
+##  1st Qu.:0.33147   1st Qu.: 0.00   1st Qu.: 3.970   1st Qu.:0.0000  
+##  Median :0.52014   Median : 0.00   Median : 6.200   Median :0.0000  
+##  Mean   :0.71879   Mean   :13.62   Mean   : 7.078   Mean   :0.1538  
+##  3rd Qu.:0.57834   3rd Qu.:20.00   3rd Qu.: 6.200   3rd Qu.:0.0000  
+##  Max.   :3.47428   Max.   :95.00   Max.   :19.580   Max.   :1.0000  
+##       nox               rm             age             dis       
+##  Min.   :0.4161   Min.   :8.034   Min.   : 8.40   Min.   :1.801  
+##  1st Qu.:0.5040   1st Qu.:8.247   1st Qu.:70.40   1st Qu.:2.288  
+##  Median :0.5070   Median :8.297   Median :78.30   Median :2.894  
+##  Mean   :0.5392   Mean   :8.349   Mean   :71.54   Mean   :3.430  
+##  3rd Qu.:0.6050   3rd Qu.:8.398   3rd Qu.:86.50   3rd Qu.:3.652  
+##  Max.   :0.7180   Max.   :8.780   Max.   :93.90   Max.   :8.907  
+##       rad              tax           ptratio          black      
+##  Min.   : 2.000   Min.   :224.0   Min.   :13.00   Min.   :354.6  
+##  1st Qu.: 5.000   1st Qu.:264.0   1st Qu.:14.70   1st Qu.:384.5  
+##  Median : 7.000   Median :307.0   Median :17.40   Median :386.9  
+##  Mean   : 7.462   Mean   :325.1   Mean   :16.36   Mean   :385.2  
+##  3rd Qu.: 8.000   3rd Qu.:307.0   3rd Qu.:17.40   3rd Qu.:389.7  
+##  Max.   :24.000   Max.   :666.0   Max.   :20.20   Max.   :396.9  
+##      lstat           medv     
+##  Min.   :2.47   Min.   :21.9  
+##  1st Qu.:3.32   1st Qu.:41.7  
+##  Median :4.14   Median :48.3  
+##  Mean   :4.31   Mean   :44.2  
+##  3rd Qu.:5.12   3rd Qu.:50.0  
+##  Max.   :7.44   Max.   :50.0
+\end{verbatim}
+
+very less crime rate crim, lstat and higher medv than average.
+
+\#Chapter 3 \#15
+
+\#\#Part a statistical significance is denoted by the p-value. P value
+disproves the null hypothesis, that means for a p value higher than
+0.05, it indicates that the variable does not have statistical
+significance
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ zn)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.429 -4.222 -2.620  1.250 84.523 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  4.45369    0.41722  10.675  < 2e-16 ***
+## zn          -0.07393    0.01609  -4.594 5.51e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.435 on 504 degrees of freedom
+## Multiple R-squared:  0.04019,    Adjusted R-squared:  0.03828 
+## F-statistic:  21.1 on 1 and 504 DF,  p-value: 5.506e-06
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ indus)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -11.972  -2.698  -0.736   0.712  81.813 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -2.06374    0.66723  -3.093  0.00209 ** 
+## indus        0.50978    0.05102   9.991  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.866 on 504 degrees of freedom
+## Multiple R-squared:  0.1653, Adjusted R-squared:  0.1637 
+## F-statistic: 99.82 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ chas)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.738 -3.661 -3.435  0.018 85.232 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   3.7444     0.3961   9.453   <2e-16 ***
+## chas         -1.8928     1.5061  -1.257    0.209    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.597 on 504 degrees of freedom
+## Multiple R-squared:  0.003124,   Adjusted R-squared:  0.001146 
+## F-statistic: 1.579 on 1 and 504 DF,  p-value: 0.2094
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ nox)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -12.371  -2.738  -0.974   0.559  81.728 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -13.720      1.699  -8.073 5.08e-15 ***
+## nox           31.249      2.999  10.419  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.81 on 504 degrees of freedom
+## Multiple R-squared:  0.1772, Adjusted R-squared:  0.1756 
+## F-statistic: 108.6 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ rm)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.604 -3.952 -2.654  0.989 87.197 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   20.482      3.365   6.088 2.27e-09 ***
+## rm            -2.684      0.532  -5.045 6.35e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.401 on 504 degrees of freedom
+## Multiple R-squared:  0.04807,    Adjusted R-squared:  0.04618 
+## F-statistic: 25.45 on 1 and 504 DF,  p-value: 6.347e-07
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ age)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.789 -4.257 -1.230  1.527 82.849 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -3.77791    0.94398  -4.002 7.22e-05 ***
+## age          0.10779    0.01274   8.463 2.85e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.057 on 504 degrees of freedom
+## Multiple R-squared:  0.1244, Adjusted R-squared:  0.1227 
+## F-statistic: 71.62 on 1 and 504 DF,  p-value: 2.855e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ dis)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.708 -4.134 -1.527  1.516 81.674 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   9.4993     0.7304  13.006   <2e-16 ***
+## dis          -1.5509     0.1683  -9.213   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.965 on 504 degrees of freedom
+## Multiple R-squared:  0.1441, Adjusted R-squared:  0.1425 
+## F-statistic: 84.89 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ rad)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.164  -1.381  -0.141   0.660  76.433 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -2.28716    0.44348  -5.157 3.61e-07 ***
+## rad          0.61791    0.03433  17.998  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.718 on 504 degrees of freedom
+## Multiple R-squared:  0.3913, Adjusted R-squared:   0.39 
+## F-statistic: 323.9 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ tax)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -12.513  -2.738  -0.194   1.065  77.696 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -8.528369   0.815809  -10.45   <2e-16 ***
+## tax          0.029742   0.001847   16.10   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.997 on 504 degrees of freedom
+## Multiple R-squared:  0.3396, Adjusted R-squared:  0.3383 
+## F-statistic: 259.2 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ ptratio)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.654 -3.985 -1.912  1.825 83.353 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -17.6469     3.1473  -5.607 3.40e-08 ***
+## ptratio       1.1520     0.1694   6.801 2.94e-11 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.24 on 504 degrees of freedom
+## Multiple R-squared:  0.08407,    Adjusted R-squared:  0.08225 
+## F-statistic: 46.26 on 1 and 504 DF,  p-value: 2.943e-11
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ black)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.756  -2.299  -2.095  -1.296  86.822 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 16.553529   1.425903  11.609   <2e-16 ***
+## black       -0.036280   0.003873  -9.367   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.946 on 504 degrees of freedom
+## Multiple R-squared:  0.1483, Adjusted R-squared:  0.1466 
+## F-statistic: 87.74 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ lstat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.925  -2.822  -0.664   1.079  82.862 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -3.33054    0.69376  -4.801 2.09e-06 ***
+## lstat        0.54880    0.04776  11.491  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.664 on 504 degrees of freedom
+## Multiple R-squared:  0.2076, Adjusted R-squared:  0.206 
+## F-statistic:   132 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ medv)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.071 -4.022 -2.343  1.298 80.957 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 11.79654    0.93419   12.63   <2e-16 ***
+## medv        -0.36316    0.03839   -9.46   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.934 on 504 degrees of freedom
+## Multiple R-squared:  0.1508, Adjusted R-squared:  0.1491 
+## F-statistic: 89.49 on 1 and 504 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-13-1.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-13-2.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-13-3.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-13-4.pdf}
+
+\#\#Part b
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ ., data = Boston)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.924 -2.120 -0.353  1.019 75.051 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  17.033228   7.234903   2.354 0.018949 *  
+## zn            0.044855   0.018734   2.394 0.017025 *  
+## indus        -0.063855   0.083407  -0.766 0.444294    
+## chas         -0.749134   1.180147  -0.635 0.525867    
+## nox         -10.313535   5.275536  -1.955 0.051152 .  
+## rm            0.430131   0.612830   0.702 0.483089    
+## age           0.001452   0.017925   0.081 0.935488    
+## dis          -0.987176   0.281817  -3.503 0.000502 ***
+## rad           0.588209   0.088049   6.680 6.46e-11 ***
+## tax          -0.003780   0.005156  -0.733 0.463793    
+## ptratio      -0.271081   0.186450  -1.454 0.146611    
+## black        -0.007538   0.003673  -2.052 0.040702 *  
+## lstat         0.126211   0.075725   1.667 0.096208 .  
+## medv         -0.198887   0.060516  -3.287 0.001087 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.439 on 492 degrees of freedom
+## Multiple R-squared:  0.454,  Adjusted R-squared:  0.4396 
+## F-statistic: 31.47 on 13 and 492 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-14-1.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-14-2.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-14-3.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-14-4.pdf}
+zn, dis, rad, black and medv have Pr(\textgreater\textbar t\textbar)
+values less than 0.05, hence we can reject null hypothesis for these
+predictors
+
+\#\#Part c how do your results from a compare to b? One is uni variate
+regression and the other is Multivariate regression.
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-15-1.pdf}
+the coefficient estimate of nox is -10 in multivariate regression and 31
+in uni variate regression. If we remove nox from set of variables in
+multivariate analysis, the effect of other variables would be the same
+for their respective univariate regressions.
+
+\#\#Part d
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(zn, 3))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.821 -4.614 -1.294  0.473 84.130 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    3.6135     0.3722   9.709  < 2e-16 ***
+## poly(zn, 3)1 -38.7498     8.3722  -4.628  4.7e-06 ***
+## poly(zn, 3)2  23.9398     8.3722   2.859  0.00442 ** 
+## poly(zn, 3)3 -10.0719     8.3722  -1.203  0.22954    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.372 on 502 degrees of freedom
+## Multiple R-squared:  0.05824,    Adjusted R-squared:  0.05261 
+## F-statistic: 10.35 on 3 and 502 DF,  p-value: 1.281e-06
+\end{verbatim}
+
+Pr(\textgreater\textbar t\textbar) value of coeff of cubic variable is
+greater than 0.05, therefore this is not statistically significant
+,hence no non-linear effect
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(indus, 3))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -8.278 -2.514  0.054  0.764 79.713 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        3.614      0.330  10.950  < 2e-16 ***
+## poly(indus, 3)1   78.591      7.423  10.587  < 2e-16 ***
+## poly(indus, 3)2  -24.395      7.423  -3.286  0.00109 ** 
+## poly(indus, 3)3  -54.130      7.423  -7.292  1.2e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.423 on 502 degrees of freedom
+## Multiple R-squared:  0.2597, Adjusted R-squared:  0.2552 
+## F-statistic: 58.69 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit,therefore non-linear
+relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(nox, 3))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.110 -2.068 -0.255  0.739 78.302 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     3.6135     0.3216  11.237  < 2e-16 ***
+## poly(nox, 3)1  81.3720     7.2336  11.249  < 2e-16 ***
+## poly(nox, 3)2 -28.8286     7.2336  -3.985 7.74e-05 ***
+## poly(nox, 3)3 -60.3619     7.2336  -8.345 6.96e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.234 on 502 degrees of freedom
+## Multiple R-squared:  0.297,  Adjusted R-squared:  0.2928 
+## F-statistic: 70.69 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit,therefore non-linear
+relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(rm, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -18.485  -3.468  -2.221  -0.015  87.219 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    3.6135     0.3703   9.758  < 2e-16 ***
+## poly(rm, 3)1 -42.3794     8.3297  -5.088 5.13e-07 ***
+## poly(rm, 3)2  26.5768     8.3297   3.191  0.00151 ** 
+## poly(rm, 3)3  -5.5103     8.3297  -0.662  0.50858    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.33 on 502 degrees of freedom
+## Multiple R-squared:  0.06779,    Adjusted R-squared:  0.06222 
+## F-statistic: 12.17 on 3 and 502 DF,  p-value: 1.067e-07
+\end{verbatim}
+
+Pr(\textgreater\textbar t\textbar) value of coeff of cubic variable is
+greater than 0.05, therefore this is not statistically significant,hence
+no non-linear effect
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(age, 3))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.762 -2.673 -0.516  0.019 82.842 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     3.6135     0.3485  10.368  < 2e-16 ***
+## poly(age, 3)1  68.1820     7.8397   8.697  < 2e-16 ***
+## poly(age, 3)2  37.4845     7.8397   4.781 2.29e-06 ***
+## poly(age, 3)3  21.3532     7.8397   2.724  0.00668 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.84 on 502 degrees of freedom
+## Multiple R-squared:  0.1742, Adjusted R-squared:  0.1693 
+## F-statistic: 35.31 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit,therefore non-linear
+relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(dis, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.757  -2.588   0.031   1.267  76.378 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     3.6135     0.3259  11.087  < 2e-16 ***
+## poly(dis, 3)1 -73.3886     7.3315 -10.010  < 2e-16 ***
+## poly(dis, 3)2  56.3730     7.3315   7.689 7.87e-14 ***
+## poly(dis, 3)3 -42.6219     7.3315  -5.814 1.09e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.331 on 502 degrees of freedom
+## Multiple R-squared:  0.2778, Adjusted R-squared:  0.2735 
+## F-statistic: 64.37 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit, therefore non-linear
+relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(rad, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -10.381  -0.412  -0.269   0.179  76.217 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     3.6135     0.2971  12.164  < 2e-16 ***
+## poly(rad, 3)1 120.9074     6.6824  18.093  < 2e-16 ***
+## poly(rad, 3)2  17.4923     6.6824   2.618  0.00912 ** 
+## poly(rad, 3)3   4.6985     6.6824   0.703  0.48231    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.682 on 502 degrees of freedom
+## Multiple R-squared:    0.4,  Adjusted R-squared:  0.3965 
+## F-statistic: 111.6 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Pr(\textgreater\textbar t\textbar) value of coeff of cubic variable is
+greater than 0.05, therefore this is not statistically significant,hence
+no non-linear effect
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(tax, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.273  -1.389   0.046   0.536  76.950 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     3.6135     0.3047  11.860  < 2e-16 ***
+## poly(tax, 3)1 112.6458     6.8537  16.436  < 2e-16 ***
+## poly(tax, 3)2  32.0873     6.8537   4.682 3.67e-06 ***
+## poly(tax, 3)3  -7.9968     6.8537  -1.167    0.244    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.854 on 502 degrees of freedom
+## Multiple R-squared:  0.3689, Adjusted R-squared:  0.3651 
+## F-statistic:  97.8 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Pr(\textgreater\textbar t\textbar) value of coeff of cubic variable is
+greater than 0.05, therefore this is not statistically significant
+,hence no non-linear effect
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(ptratio, 3))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.833 -4.146 -1.655  1.408 82.697 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          3.614      0.361  10.008  < 2e-16 ***
+## poly(ptratio, 3)1   56.045      8.122   6.901 1.57e-11 ***
+## poly(ptratio, 3)2   24.775      8.122   3.050  0.00241 ** 
+## poly(ptratio, 3)3  -22.280      8.122  -2.743  0.00630 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.122 on 502 degrees of freedom
+## Multiple R-squared:  0.1138, Adjusted R-squared:  0.1085 
+## F-statistic: 21.48 on 3 and 502 DF,  p-value: 4.171e-13
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit, therefore non-linear
+relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(black, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -13.096  -2.343  -2.128  -1.439  86.790 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       3.6135     0.3536  10.218   <2e-16 ***
+## poly(black, 3)1 -74.4312     7.9546  -9.357   <2e-16 ***
+## poly(black, 3)2   5.9264     7.9546   0.745    0.457    
+## poly(black, 3)3  -4.8346     7.9546  -0.608    0.544    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.955 on 502 degrees of freedom
+## Multiple R-squared:  0.1498, Adjusted R-squared:  0.1448 
+## F-statistic: 29.49 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+2 Pr(\textgreater\textbar t\textbar) values of quadratic and cubic
+coefficients is above 0.05, therefore no linear relationship is observed
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(lstat, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -15.234  -2.151  -0.486   0.066  83.353 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       3.6135     0.3392  10.654   <2e-16 ***
+## poly(lstat, 3)1  88.0697     7.6294  11.543   <2e-16 ***
+## poly(lstat, 3)2  15.8882     7.6294   2.082   0.0378 *  
+## poly(lstat, 3)3 -11.5740     7.6294  -1.517   0.1299    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7.629 on 502 degrees of freedom
+## Multiple R-squared:  0.2179, Adjusted R-squared:  0.2133 
+## F-statistic: 46.63 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Pr(\textgreater\textbar t\textbar) value of coeff of cubic variable is
+greater than 0.05, therefore this is not statistically significant
+,hence no non-linear effect
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = crim ~ poly(medv, 3))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -24.427  -1.976  -0.437   0.439  73.655 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       3.614      0.292  12.374  < 2e-16 ***
+## poly(medv, 3)1  -75.058      6.569 -11.426  < 2e-16 ***
+## poly(medv, 3)2   88.086      6.569  13.409  < 2e-16 ***
+## poly(medv, 3)3  -48.033      6.569  -7.312 1.05e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.569 on 502 degrees of freedom
+## Multiple R-squared:  0.4202, Adjusted R-squared:  0.4167 
+## F-statistic: 121.3 on 3 and 502 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+all Pr(\textgreater\textbar t\textbar) value of all coefficients is
+below 0.05, this indicates adequacy of cubic fit, therefore non-linear
+relationship is observed
+
+\#Chapter 6 \#9 \#\#Part a
+
+\#\#Part b Linear model using least squares (that is ridge regression
+with lambda=0) and get the test MSE
+
+\begin{verbatim}
+## [1] 1734097
+\end{verbatim}
+
+\#\#Part c ridge regression model with lambda from cross validation
+
+\begin{verbatim}
+## [1] 376.9825
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1711214
+\end{verbatim}
+
+\#\#Part d Lasso regression
+
+\begin{verbatim}
+## [1] 0.01
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1734040
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 18
+\end{verbatim}
+
+all 18 coefficients of the lasso regression are non-zero
+
+\#\#Part e PCR model on the training set, with M chosen by cross
+validation
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-32-1.pdf}
+
+\begin{verbatim}
+## Data:    X dimension: 647 17 
+##  Y dimension: 647 1
+## Fit method: svdpc
+## Number of components considered: 17
+## 
+## VALIDATION: RMSEP
+## Cross-validated using 10 random segments.
+##        (Intercept)  1 comps  2 comps  3 comps  4 comps  5 comps  6 comps
+## CV            3960     3928     2076     2075     1694     1609     1604
+## adjCV         3960     3927     2073     2075     1683     1599     1600
+##        7 comps  8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+## CV        1593     1564     1504      1500      1507      1507      1514
+## adjCV     1593     1558     1501      1497      1505      1504      1511
+##        14 comps  15 comps  16 comps  17 comps
+## CV         1515      1439      1146      1070
+## adjCV      1512      1416      1138      1064
+## 
+## TRAINING: % variance explained
+##               1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps
+## X              31.595    56.89    64.10    69.95    75.24    80.18    83.97
+## College$Apps    1.938    73.21    73.33    82.60    84.29    84.29    84.59
+##               8 comps  9 comps  10 comps  11 comps  12 comps  13 comps
+## X               87.47    90.67     92.98     95.02     96.80     97.90
+## College$Apps    85.38    86.12     86.31     86.31     86.38     86.38
+##               14 comps  15 comps  16 comps  17 comps
+## X                98.72     99.34     99.83    100.00
+## College$Apps     86.39     91.73     93.30     93.94
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1734462
+\end{verbatim}
+
+best MSEP observed for components greater than 15 selected value of M is
+17 for which MSE is lowest
+
+\#\#Part f PLS Regression
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{verbatim}
+## [1] 1640027
+\end{verbatim}
+
+lowest MSE observed for M=8
+
+\#\#Part g
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-34-1.pdf}
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-34-2.pdf}
+\#\#\#Observations -pls found to have lowest MSE relatively. -almost all
+models have r2 slightly below or above 0.85. Ridge and PLS have a R2
+above 0.85 accurately and others have a R2 very slightly below 0.85 -SO
+we can be reasonably confident about the accuracy of the predictions of
+Ridge and PLS.
+
+\#Chapter 6 Problem 11 \#\#Part a Best subset selection using cross
+validation with 10 folds.
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-35-1.pdf}
+\#\#\#Observation: CV error is lowest for model with 9 variables. CV
+Error = 42.01511
+
+\#\#\#Lasso Regression
+
+\begin{verbatim}
+## [1] 34.69733
+\end{verbatim}
+
+\begin{verbatim}
+##   (Intercept)            zn         indus          chas           nox 
+## 10.7608042269  0.0343973842 -0.0860050389 -0.1885423574 -7.8970993472 
+##            rm           age           dis           rad           tax 
+##  0.5791113777 -0.0004465565 -0.8015605001  0.5014943709  0.0000000000 
+##       ptratio         black         lstat 
+## -0.1925606486 -0.0059761389  0.1572149314
+\end{verbatim}
+
+\#\#\#Ridge Regression
+
+\begin{verbatim}
+## [1] 35.27351
+\end{verbatim}
+
+\begin{verbatim}
+##  (Intercept)           zn        indus         chas          nox           rm 
+##  7.003424412  0.030583027 -0.092446190 -0.383738264 -5.572135241  0.633468800 
+##          age          dis          rad          tax      ptratio        black 
+## -0.002993471 -0.713604592  0.409216418  0.003359205 -0.124666152 -0.007001757 
+##        lstat 
+##  0.171188357
+\end{verbatim}
+
+\#\#\#PCR
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+\begin{verbatim}
+## [1] 34.75129
+\end{verbatim}
+
+\#\#\#Observations: -I would choose the Lasso model because it gives me
+the least MSE compared to other models -Lasso models are generally more
+interpret able. -It results in a sparse model with 10 variables. Two
+variables whose effect on the response were below the required threshold
+were removed.
+
+\#Chapter 8 \#8 A simulated data set containing sales of child car seats
+at 400 different stores.
+
+\#\#Part a
+
+\#\#Part b Regression tree
+
+\begin{verbatim}
+## 
+## Regression tree:
+## tree(formula = Sales ~ ., data = Carseats.train)
+## Variables actually used in tree construction:
+## [1] "ShelveLoc"   "Price"       "CompPrice"   "Income"      "Age"        
+## [6] "Advertising"
+## Number of terminal nodes:  18 
+## Residual mean deviance:  2.45 = 690.9 / 282 
+## Distribution of residuals:
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -4.42700 -1.03300 -0.06031  0.00000  0.89350  4.28300
+\end{verbatim}
+
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+\begin{verbatim}
+## [1] 4.223801
+\end{verbatim}
+
+above is how the tree looks like. ShevLoc being first comparison node
+and Price being the second node, they are the most important predictors
+
+The test MSE is about \$4.223801
+
+\#\#Part c
+\includegraphics{Intro-to-ML-Take-home-exam_files/figure-latex/unnamed-chunk-41-1.pdf}
+
+CV error is the lowest for 14 terminal nodes, tree can be pruned to 14
+terminal nodes
+
+\begin{verbatim}
+## [1] 4.067209
+\end{verbatim}
+
+Test MSE is reduced after pruning the tree
+
+\#\#Part d Bagging using Random Forests
+
+\begin{verbatim}
+## randomForest 4.7-1.1
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'randomForest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+\end{verbatim}
+
+\begin{verbatim}
+##                %IncMSE IncNodePurity
+## CompPrice   34.9816412     287.17190
+## Income       5.9985965     112.75680
+## Advertising 22.5019577     179.28467
+## Population  -0.4400871      80.72751
+## Price       73.4424794     733.14939
+## ShelveLoc   71.0090207     622.78234
+## Age         20.3948844     206.28776
+## Education    1.8908535      58.85880
+## Urban        0.8333364      10.20234
+## US           4.9488667      11.32860
+\end{verbatim}
+
+ShelveLoc and Price are the 2 main important predictors, similar to the
+tree we plotted earlier, followed by Compprice and Age
+
+\begin{verbatim}
+## [1] 2.156419
+\end{verbatim}
+
+We get an MSE of 2.156419, lower than pruning the tree.
+
+\#\#Part e RF
+
+\begin{verbatim}
+##                %IncMSE IncNodePurity
+## CompPrice   34.9816412     287.17190
+## Income       5.9985965     112.75680
+## Advertising 22.5019577     179.28467
+## Population  -0.4400871      80.72751
+## Price       73.4424794     733.14939
+## ShelveLoc   71.0090207     622.78234
+## Age         20.3948844     206.28776
+## Education    1.8908535      58.85880
+## Urban        0.8333364      10.20234
+## US           4.9488667      11.32860
+\end{verbatim}
+
+RF shows that Price and ShelveLoc are most imp predictors, but here
+Price is more important than ShelveLoc
+
+\begin{verbatim}
+## [1] 2.156419
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.150195
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.089434
+\end{verbatim}
+
+For mtry/2 we are getting an MSE of 2.15, lower than that of original
+mtry.
+
+\end{document}

@@ -1,0 +1,6 @@
+Divorce Prediction
+
+Problem statement- https://www.kaggle.com/datasets/andrewmvd/divorce-prediction
+Solution - https://www.kaggle.com/code/andrewmvd/divorce-prediction-with-rf
+
+con- less number of rows in the dataset- 170, survey data
