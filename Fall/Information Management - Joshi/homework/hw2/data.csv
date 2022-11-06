@@ -1,0 +1,16 @@
+﻿StudID,StdFirstName,StdLastName,TotalScore,CourseName,Section,Stream
+135791,Albert,Einstein,99.98,Physics,A,Accounting
+246802,Homi,Bhabha,99.99,Physics,B,Finance
+147036,Marie,Daly,100,Chemistry,A,IB
+260482,Srinivasa,Ramanuja,17.29,Math,A,Analytics
+161616,Marie,Curie,88,Chemistry,B,Analytics
+271828,Vikram,Sarabhai,19.19,Astronomy,A,MIS
+314159,Chien,Wu,19.12,Physics,A,Marketing
+314159,Chien,Wu,100,Chemistry,B,Marketing
+135791,Albert,Einstein,75,Chemistry,A,Accounting
+246802,Homi,Bhabha,48,Math,A,Finance
+147036,Marie,Daly,67,Math,A,IB
+260482,Srinivasa,Ramanuja,92.71,Chemistry,A,Analytics
+161616,Marie,Curie,88.88,Astronomy,B,Analytics
+271828,Vikram,Sarabhai,91.91,Physics,A,MIS
+314159,Chien,Wu,91.21,Math,A,Marketing
